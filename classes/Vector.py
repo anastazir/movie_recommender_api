@@ -19,6 +19,7 @@ class Vector():
 
     def cosine_similarity(self, vec):
         "compute cosine similarity of v1 to v2: (v1 dot v2)/{||v1||*||v2||)"
+        vec = ast.literal_eval(vec)
         if sum(vec) == 0: return 0
         sumxx, sumxy, sumyy = 0, 0, 0
         for i in range(len(self.vector)):
@@ -32,5 +33,7 @@ class Vector():
         vd = pd.read_csv("datasets/vector/vector.csv")
         vd = vd[["id_x","name","imdb_id","vectors"]]
         vd["scores"] = vd["vectors"].apply(self.cosine_similarity)
-        results = vd.sort_values(by = "scores", ascending = False).head(100)
+        results = vd.sort_values(by = "scores", ascending = False).head(50)
+        results.drop(columns = ["scores"], inplace = True)
+        del vd
         return results
