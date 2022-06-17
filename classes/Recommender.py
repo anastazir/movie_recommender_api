@@ -36,6 +36,7 @@ class Recommender():
         movie_indices = [i[0] for i in sim_scores]
 
         # Return the top 50 most similar movies
+        del self.model
         return self.df.iloc[movie_indices]
 
     # Function that takes in imdb id as input and outputs most similar movies
