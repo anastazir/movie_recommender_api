@@ -4,6 +4,8 @@ import requests
 import json
 
 from classes.Recommender import Recommender
+from classes.Vector import Vector
+
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -25,5 +27,13 @@ def recommend(name_or_id):
     recommender = Recommender(type = type)
 
     movies = recommender.get_recommendations(a = name_or_id)
+    json_res = movies.to_dict(orient = 'records')
+    return jsonify(json_res)
+
+@app.route('/recommend/genres', methods=['POST'])
+def vector():
+    genres_list = str(request.form["genres"]).split(",")
+    recommender = Vector(genres_list = genres_list)
+    movies = recommender.get_recommendations()
     json_res = movies.to_dict(orient = 'records')
     return jsonify(json_res)
