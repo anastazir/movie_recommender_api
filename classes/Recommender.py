@@ -3,8 +3,9 @@ import pickle
 import gzip
 
 class Recommender():
-    def __init__(self, NAME = "KCWG"):
+    def __init__(self, NAME = "KCWG", type = "id"):
         self.NAME = NAME
+        self.type = type
         self.df = pd.read_csv("datasets\preprocessed\preprocessed_id.csv")
         self.model = self.load_model()
 
@@ -56,3 +57,9 @@ class Recommender():
 
         # Return the top 50 most similar movies
         return self.df[['name', "imdb_id"]].iloc[movie_indices]
+
+    def get_recommendations(self, a):
+        if self.type == "title":
+            return self.get_recommendations_title(a)
+        elif self.type == "id":
+            return self.get_recommendations_id(a)
