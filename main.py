@@ -6,7 +6,7 @@ import warnings
 
 from classes.Recommender import Recommender
 from classes.Vector import Vector
-
+from classes.Search import Search
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -37,6 +37,14 @@ def recommend(name_or_id):
 def vector():
     genres_list = str(request.form["genres"]).split(",")
     recommender = Vector(genres_list = genres_list)
+    movies = recommender.get_recommendations()
+    json_res = movies.to_dict(orient = 'records')
+    return jsonify(json_res)
+
+@app.route('/search', methods=['POST'])
+def search():
+    search_term = str(request.form["search_term"])
+    recommender = Search(search_term = search_term)
     movies = recommender.get_recommendations()
     json_res = movies.to_dict(orient = 'records')
     return jsonify(json_res)
