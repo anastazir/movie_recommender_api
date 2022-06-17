@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import requests
 import json
+import warnings
 
 from classes.Recommender import Recommender
 from classes.Vector import Vector
@@ -10,6 +11,8 @@ from classes.Vector import Vector
 app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
+
+warnings.filterwarnings("ignore")
 
 @app.route('/fetch/<id>', methods=['GET', 'POST'])
 def fetch(id):
