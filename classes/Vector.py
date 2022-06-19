@@ -33,7 +33,13 @@ class Vector():
         vd = pd.read_csv("datasets/vector/vector.csv")
         vd = vd[["id_x","name","imdb_id","vectors"]]
         vd["scores"] = vd["vectors"].apply(self.cosine_similarity)
+
         results = vd.sort_values(by = "scores", ascending = False).head(50)
         results.drop(columns = ["scores"], inplace = True)
-        del vd
+
+        card_df = pd.read_csv("datasets\web\card.csv")
+        results = results[["imdb_id"]].merge(card_df, on="imdb_id")
+
+        del vd, card_df
+
         return results
